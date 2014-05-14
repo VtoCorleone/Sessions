@@ -1,0 +1,27 @@
+[
+{
+  "id": 1,
+  "question": "Are you sick today?",
+  "type": "open"
+},
+{
+  "id": "2",
+  "question": "What is your pulse rate?",
+  "type": "vital"
+},
+{
+  "id": 3,
+  "question": "I am question 3",
+  "type": "open"
+},
+{
+  "id": 4,
+  "question": "I am question 4",
+  "type": "open"
+},
+{
+  "id": 5,
+  "question": "I am question 5",
+  "type": "open"
+}
+]

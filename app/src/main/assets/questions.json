@@ -1,0 +1,56 @@
+[
+{
+  "id": 1,
+  "question": "Are you sick?",
+  "type": "open",
+  "responses": [{
+    "response": "",
+    "nextQuestion": 2
+  }]
+},
+{
+  "id": "2",
+  "question": "What is your pulse rate?",
+  "type": "vital",
+  "nextQuestion": [
+  {
+    "response": "1-10",
+    "questionId": 3
+  },
+  {
+    "response": "11-20",
+    "questionId": 4
+  },
+  {
+    "response": "21-30",
+    "questionId": 5
+  }]
+},
+{
+  "id": 3,
+  "question": "I am question 3",
+  "type": "open",
+  "nextQuestion": [{
+    "response": "",
+    "nextQuestion": 1
+  }]
+},
+{
+  "id": 4,
+  "question": "I am question 4",
+  "type": "open",
+  "nextQuestion": [{
+    "response": "",
+    "nextQuestion": 1
+  }]
+},
+{
+  "id": 5,
+  "question": "I am question 5",
+  "type": "open",
+  "nextQuestion": [{
+    "response": "",
+    "nextQuestion": 1
+  }]
+}
+]
