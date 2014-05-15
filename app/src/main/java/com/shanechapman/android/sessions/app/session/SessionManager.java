@@ -130,27 +130,55 @@ public class SessionManager {
 
     public SessionQuestion getNextQuestion(int id, String answer){
         SessionQuestion question = null;
-        SessionQuestion tempQuestion = null;
+        SessionQuestion tempQuestion;
 
-        for (int i = 0; i < mSessionQuestions.size(); i++){
-            tempQuestion = mSessionQuestions.get(i);
-            // Find the current question in list
-            if (tempQuestion.getId() == id){
-                // Multi choice question
-                if (tempQuestion.getPossibleAnswers().size() > 0){
-                    for (int j = 0; j < tempQuestion.getPossibleAnswers().size(); j++){
-                        // Find the selected answer
-                        if (tempQuestion.getPossibleAnswers().get(j).getValue().equals(answer)){
-                            question = getSessionQuestionById(tempQuestion.getPossibleAnswers().get(j).getNextQuestion());
-                            break;
+        // Check if next question is in the previous questions list
+        for (int p = 0; p < mPreviousQuestions.size(); p++){
+            // Found a match
+            if (mPreviousQuestions.get(p).getId() == id){
+                // Check if this is the last question in the previous questions list
+                if ((p + 1) < mPreviousQuestions.size()){
+                    // Did they user give the same answer as the first time?  If so, get the next question from previous since it has the answer loaded in it
+                    if (mPreviousQuestions.get(p).getAnswer().equals(answer)){
+                        question = mPreviousQuestions.get(p + 1);
+                        break;
+                    }
+                    // Different answer.  Clear out previous list objects after this element
+                    else{
+                        for (int q = p; q < mPreviousQuestions.size(); q++){
+                            mPreviousQuestions.remove(q);
                         }
+                        break;
                     }
                 }
-                // Input text or plain text
-                else{
-                    // -1 is the the last question
-                    if (tempQuestion.getNextQuestion() != -1)
-                        question = getSessionQuestionById(tempQuestion.getNextQuestion());
+            }
+        }
+
+        // The next question was not in the previous question list
+        if (question == null) {
+            // Find the current question
+            for (int i = 0; i < mSessionQuestions.size(); i++) {
+                tempQuestion = mSessionQuestions.get(i);
+                // Find the current question in list
+                if (tempQuestion.getId() == id) {
+                    // Save current answer
+                    saveCurrentAnswer(id, answer);
+                    // Multi choice question
+                    if (tempQuestion.getPossibleAnswers().size() > 0) {
+                        for (int j = 0; j < tempQuestion.getPossibleAnswers().size(); j++) {
+                            // Find the selected answer
+                            if (tempQuestion.getPossibleAnswers().get(j).getValue().equals(answer)) {
+                                question = getSessionQuestionById(tempQuestion.getPossibleAnswers().get(j).getNextQuestion());
+                                break;
+                            }
+                        }
+                    }
+                    // Input text or plain text
+                    else {
+                        // -1 is the the last question
+                        if (tempQuestion.getNextQuestion() != -1)
+                            question = getSessionQuestionById(tempQuestion.getNextQuestion());
+                    }
                 }
             }
         }
@@ -177,7 +205,7 @@ public class SessionManager {
         int listSize = mPreviousQuestions.size();
 
         if (listSize > 0)
-            question = mPreviousQuestions.get(listSize - 1);
+            question = mPreviousQuestions.get(mPreviousQuestionIndex--);
 
         return question;
     }

@@ -66,6 +66,7 @@ public class SessionInProgressFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_session_in_progress, container, false);
 
+        assert view != null;
         view.setOnTouchListener(new View.OnTouchListener(){
             public boolean onTouch(View v, MotionEvent event){
 
@@ -99,14 +100,14 @@ public class SessionInProgressFragment extends Fragment {
                                     int selected = mAnswerRadioGroup.getCheckedRadioButtonId();
                                     RadioButton b = (RadioButton)v.findViewById(selected);
                                     curAnswer = b.getText().toString();
-                                    mSessionManager.saveCurrentAnswer(curId, curAnswer);
+                                    //mSessionManager.saveCurrentAnswer(curId, curAnswer);
                                     mCurrentQuestion = mSessionManager.getNextQuestion(mCurrentQuestion.getId(), curAnswer);
                                     setDisplayInputs(SessionQuestion.TYPE_MULTI);
                                     setRadioGroupButtons();
                                 }
                                 else if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_OPEN)) {
                                     curAnswer = mAnswerEdit.getText().toString();
-                                    mSessionManager.saveCurrentAnswer(curId, curAnswer);
+                                    //mSessionManager.saveCurrentAnswer(curId, curAnswer);
                                     mCurrentQuestion = mSessionManager.getNextQuestion(mCurrentQuestion.getId(), mAnswerEdit.getText().toString());
                                     setDisplayInputs(SessionQuestion.TYPE_OPEN);
                                 }
@@ -138,18 +139,9 @@ public class SessionInProgressFragment extends Fragment {
         if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
             mAnswerRadioGroup.setVisibility(View.VISIBLE);
             setRadioGroupButtons();
-//            RadioButton rb;
-//            for (int i = 0; i < mCurrentQuestion.getPossibleAnswers().size(); i++) {
-//                rb = new RadioButton(getActivity());
-//                rb.setId(Integer.parseInt(mCurrentQuestion.getPossibleAnswers().get(i).getKey()));
-//                rb.setText(mCurrentQuestion.getPossibleAnswers().get(i).getValue());
-//                mAnswerRadioGroup.addView(rb);
-//            }
-
         }
         else if (mCurrentQuestion.equals(SessionQuestion.TYPE_OPEN)){
             mAnswerEdit.setVisibility(View.VISIBLE);
-
         }
         else if (mCurrentQuestion.equals(SessionQuestion.TYPE_GENERAL)){
 
