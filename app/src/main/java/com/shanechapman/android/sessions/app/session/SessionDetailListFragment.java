@@ -24,6 +24,7 @@ public class SessionDetailListFragment extends ListFragment implements LoaderMan
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mSessionId = getActivity().getIntent().getIntExtra(SessionManager.SESSION_ID, -1);
+        getActivity().setTitle("Session Details");
 
         // Initialize the loader to load the list of sessions
         getLoaderManager().initLoader(0, null, this);

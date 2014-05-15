@@ -7,7 +7,9 @@
     <string name="login_user">User Name:</string>
     <string name="login_password">Password:</string>
     <string name="login_login_btn">Login</string>
-    <string name="login_register_btn">Register</string>
+    <string name="login_register_btn"><u>Register New User</u></string>
+    <string name="register_register_btn">Register</string>
+    <string name="cancel_btn"><u>Return to log in page</u></string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="register_create_user">Register User!</string>
@@ -19,6 +21,8 @@
     <string name="title_activity_session_in_progress">SessionInProgressActivity</string>
     <string name="previous_btn">Previous</string>
     <string name="next_btn">Next</string>
+    <string name="err_please_make_selection">Please make a selection</string>
+    <string name="err_please_enter_data">Username and password required</string>
     <string name="complete_btn">Complete the Session!</string>
     <string name="title_activity_session_detail_list">SessionDetailListActivity</string>
 

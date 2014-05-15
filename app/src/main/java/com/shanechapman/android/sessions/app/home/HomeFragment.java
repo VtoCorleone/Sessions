@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.shanechapman.android.sessions.app.R;
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        getActivity().setTitle("Sessions");
 
         mUserId = getActivity().getIntent().getIntExtra(UserManager.USER_ID, -1);
 
@@ -37,7 +39,7 @@ public class HomeFragment extends Fragment {
         Boolean isSessionComplete = i.getBooleanExtra(SessionInProgressFragment.INTENT_IS_FROM_SESSION, false);
         if (isSessionComplete) mSessionComplete.setVisibility(View.VISIBLE);
 
-        Button mNewSession = (Button)view.findViewById(R.id.new_session_btn);
+        ImageButton mNewSession = (ImageButton)view.findViewById(R.id.new_session_btn);
         mNewSession.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button pastSessions = (Button)view.findViewById(R.id.list_sessions_btn);
+        ImageButton pastSessions = (ImageButton)view.findViewById(R.id.list_sessions_btn);
         pastSessions.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

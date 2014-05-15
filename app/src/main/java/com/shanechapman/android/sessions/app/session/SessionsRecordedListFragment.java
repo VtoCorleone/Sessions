@@ -29,6 +29,7 @@ public class SessionsRecordedListFragment extends ListFragment implements Loader
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mUserId = getActivity().getIntent().getIntExtra(UserManager.USER_ID, -1);
+        getActivity().setTitle("Recorded Sessions");
 
         // Initialize the loader to load the list of sessions
         getLoaderManager().initLoader(0, null, this);

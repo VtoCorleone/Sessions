@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <Button
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text="Create a new session"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center"/>
+
+    <ImageButton
         android:id="@+id/new_session_btn"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_session"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:src="@drawable/newsession"
+        android:background="@color/white"/>
 
     <TextView
         android:id="@+id/session_completed"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Session successfully completed"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@id/new_session_btn"
         android:visibility="invisible"/>
 
-    <Button
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text="Check past sessions"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center"/>
+
+    <ImageButton
         android:id="@+id/list_sessions_btn"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/list_of_sessions"
-        android:layout_below="@+id/session_completed"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:src="@drawable/calendar"
+        android:background="@color/white"/>
 
-</RelativeLayout>
+</LinearLayout>

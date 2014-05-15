@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +38,7 @@ public class SessionInProgressFragment extends Fragment {
     private TextView mQuestionText;
     private RadioGroup mAnswerRadioGroup;
     private EditText mAnswerEdit;
+    private TextView mErrorText;
 
     private SessionManager mSessionManager;
     private SessionQuestion mCurrentQuestion;
@@ -90,6 +92,8 @@ public class SessionInProgressFragment extends Fragment {
                 return true;
             }
         });
+
+        mErrorText = (TextView)view.findViewById(R.id.error_txt);
 
         mQuestionText = (TextView)view.findViewById(R.id.session_question_txt);
         mQuestionText.setText(mCurrentQuestion.getQuestion());
@@ -157,6 +161,22 @@ public class SessionInProgressFragment extends Fragment {
 
     public void navigateNext(View v){
 
+        if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
+            int selected = mAnswerRadioGroup.getCheckedRadioButtonId();
+            if (selected == -1){
+                mErrorText.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+        else if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_OPEN)) {
+            if (mAnswerEdit.getText().toString().equals("")) {
+                mErrorText.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+
+        mErrorText.setVisibility(View.INVISIBLE);
+
         if (mCurrentQuestion != null) {
             if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
                 int selected = mAnswerRadioGroup.getCheckedRadioButtonId();
@@ -219,6 +239,7 @@ public class SessionInProgressFragment extends Fragment {
             rb = new RadioButton(getActivity());
             rb.setId(Integer.parseInt(mCurrentQuestion.getPossibleAnswers().get(i).getKey()));
             rb.setText(mCurrentQuestion.getPossibleAnswers().get(i).getValue());
+            rb.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
             mAnswerRadioGroup.addView(rb);
         }
     }

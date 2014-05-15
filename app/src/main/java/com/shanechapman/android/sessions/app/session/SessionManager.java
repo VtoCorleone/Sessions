@@ -208,8 +208,6 @@ public class SessionManager {
         return question;
     }
 
-//
-
     public SessionQuestion getPreviousQuestion(){
         SessionQuestion question = null;
 

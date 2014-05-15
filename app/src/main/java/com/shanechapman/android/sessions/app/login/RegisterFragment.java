@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.shanechapman.android.sessions.app.R;
 
@@ -24,6 +25,7 @@ public class RegisterFragment extends Fragment {
 
         final EditText userTxt = (EditText)view.findViewById(R.id.userName_txt);
         final EditText passTxt = (EditText)view.findViewById(R.id.password_txt);
+        final TextView err = (TextView)view.findViewById(R.id.err_lbl);
 
         Button mRegisterUserBtn = (Button)view.findViewById(R.id.register_btn);
         mRegisterUserBtn.setOnClickListener(new View.OnClickListener() {
@@ -31,14 +33,18 @@ public class RegisterFragment extends Fragment {
             public void onClick(View view) {
                 String name = userTxt.getText().toString();
                 String pass = passTxt.getText().toString();
-                if (name != null && pass != null) {
-                    long newUserId = UserManager.get(getActivity()).insertUser(name, pass);
-                    if (newUserId > 0){
-                        Intent i = new Intent();
-                        i.putExtra(NEW_USER_ID, newUserId);
-                        getActivity().setResult(Activity.RESULT_OK, i);
-                        getActivity().finish();
-                    }
+
+                if (name == null || name.isEmpty() || pass == null || pass.isEmpty()){
+                    err.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                long newUserId = UserManager.get(getActivity()).insertUser(name, pass);
+                if (newUserId > 0){
+                    Intent i = new Intent();
+                    i.putExtra(NEW_USER_ID, newUserId);
+                    getActivity().setResult(Activity.RESULT_OK, i);
+                    getActivity().finish();
                 }
             }
         });

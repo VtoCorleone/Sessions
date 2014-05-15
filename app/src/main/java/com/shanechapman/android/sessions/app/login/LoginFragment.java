@@ -39,10 +39,13 @@ public class LoginFragment extends Fragment {
     private Button mRegisterButton;
     private TextView mRegisterSuccess;
     private LoaderManager mLoadManager;
+    private TextView mErrTxt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        mErrTxt = (TextView)view.findViewById(R.id.err_lbl);
 
         mNameEditText = (EditText)view.findViewById(R.id.userName_txt);
         mPassEditText = (EditText)view.findViewById(R.id.password_txt);
@@ -55,21 +58,27 @@ public class LoginFragment extends Fragment {
                 // Get name and password
                 String name = mNameEditText.getText().toString();
                 String pass = mPassEditText.getText().toString();
-                if (name != null && pass != null){
-                    Log.i(TAG, "Login clicked");
-                    // Put name and password into Bundle object to pass into loader
-                    Bundle args = new Bundle();
-                    args.putString(ARG_USER_NAME, name);
-                    args.putString(ARG_USER_PASS, pass);
-                    if (mLoadManager == null) {
-                        // If this is the first click, create a new loaderManager and init
-                        mLoadManager = getLoaderManager();
-                        mLoadManager.initLoader(0, args, new UserLoaderCallbacks());
-                    }
-                    else{
-                        // If this is any click after the first, tell the loader to restart
-                        mLoadManager.restartLoader(0, args, new UserLoaderCallbacks());
-                    }
+
+                mRegisterSuccess.setVisibility(View.INVISIBLE);
+
+                if (name == null || name.isEmpty() || pass == null || pass.isEmpty()){
+                    mErrTxt.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                Log.i(TAG, "Login clicked");
+                // Put name and password into Bundle object to pass into loader
+                Bundle args = new Bundle();
+                args.putString(ARG_USER_NAME, name);
+                args.putString(ARG_USER_PASS, pass);
+                if (mLoadManager == null) {
+                    // If this is the first click, create a new loaderManager and init
+                    mLoadManager = getLoaderManager();
+                    mLoadManager.initLoader(0, args, new UserLoaderCallbacks());
+                }
+                else{
+                    // If this is any click after the first, tell the loader to restart
+                    mLoadManager.restartLoader(0, args, new UserLoaderCallbacks());
                 }
             }
         });
