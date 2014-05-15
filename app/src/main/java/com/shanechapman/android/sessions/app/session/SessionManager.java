@@ -18,6 +18,7 @@ public class SessionManager {
 
     private int mUserId;
     private int mSessionId;
+    private int mPreviousQuestionIndex = 0;
     private String mSessionTitle;
     private String mCurrentAnswer;
 
@@ -104,12 +105,7 @@ public class SessionManager {
 
     public SessionQuestion getFirstQuestion(){
         SessionQuestion question = null;
-//        try {
-//            question = new SessionQuestion(mJsonSessionQuestions.getJSONObject(0));
-            question = mSessionQuestions.get(0);
-//        }
-//        catch(JSONException je){}
-
+        question = mSessionQuestions.get(0);
         return question;
     }
 
@@ -122,6 +118,7 @@ public class SessionManager {
                     SessionQuestion q = new SessionQuestion(mJsonSessionQuestions.getJSONObject(i));
                     q.setAnswer(answer);
                     mPreviousQuestions.add(q);
+                    mPreviousQuestionIndex++;
                     mCurrentAnswer = answer;
                     break;
                 }
@@ -142,15 +139,18 @@ public class SessionManager {
                 // Multi choice question
                 if (tempQuestion.getPossibleAnswers().size() > 0){
                     for (int j = 0; j < tempQuestion.getPossibleAnswers().size(); j++){
+                        // Find the selected answer
                         if (tempQuestion.getPossibleAnswers().get(j).getValue().equals(answer)){
                             question = getSessionQuestionById(tempQuestion.getPossibleAnswers().get(j).getNextQuestion());
                             break;
                         }
                     }
                 }
+                // Input text or plain text
                 else{
-                   if (tempQuestion.getNextQuestion() != -1)
-                       question = getSessionQuestionById(tempQuestion.getNextQuestion());
+                    // -1 is the the last question
+                    if (tempQuestion.getNextQuestion() != -1)
+                        question = getSessionQuestionById(tempQuestion.getNextQuestion());
                 }
             }
         }
