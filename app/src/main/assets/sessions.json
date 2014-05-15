@@ -13,7 +13,7 @@
                 "nextQuestion":3
             },
             {
-                "2":"No",
+                "1":"No",
                 "nextQuestion":2
             }
         ]
@@ -35,7 +35,7 @@
                 "nextQuestion":4
             },
             {
-                "0":"Over 100",
+                "1":"Over 100",
                 "nextQuestion":5
             }
         ]
@@ -43,7 +43,7 @@
     {
         "id": 4,
         "question": "How many cups of water have you drank today?",
-        "type": "vital",
+        "type": "multi",
         "possibleAnswers":[
             {
                 "0":"1 - 2",

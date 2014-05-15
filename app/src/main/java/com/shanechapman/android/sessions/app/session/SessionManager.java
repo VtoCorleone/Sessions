@@ -19,6 +19,7 @@ public class SessionManager {
     private int mUserId;
     private int mSessionId;
     private int mPreviousQuestionIndex = 0;
+    private boolean mHasFirstQuestionBeenAnswered = false;
     private String mSessionTitle;
     private String mCurrentAnswer;
 
@@ -137,19 +138,24 @@ public class SessionManager {
             // Found a match
             if (mPreviousQuestions.get(p).getId() == id){
                 // Check if this is the last question in the previous questions list
-                if ((p + 1) < mPreviousQuestions.size()){
+                if ((p + 1) != mPreviousQuestions.size()){
                     // Did they user give the same answer as the first time?  If so, get the next question from previous since it has the answer loaded in it
                     if (mPreviousQuestions.get(p).getAnswer().equals(answer)){
                         question = mPreviousQuestions.get(p + 1);
+                        mPreviousQuestionIndex++;
                         break;
                     }
                     // Different answer.  Clear out previous list objects after this element
                     else{
-                        for (int q = p; q < mPreviousQuestions.size(); q++){
+                        for (int q = (mPreviousQuestions.size() - 1); q >= p; q--){
                             mPreviousQuestions.remove(q);
                         }
                         break;
                     }
+                }
+                else {
+                    // This is the last question on the previous list, remove it and run the normal "next question" logic
+                    mPreviousQuestions.remove(p);
                 }
             }
         }
@@ -179,6 +185,7 @@ public class SessionManager {
                         if (tempQuestion.getNextQuestion() != -1)
                             question = getSessionQuestionById(tempQuestion.getNextQuestion());
                     }
+                    break;
                 }
             }
         }
@@ -204,8 +211,20 @@ public class SessionManager {
 
         int listSize = mPreviousQuestions.size();
 
-        if (listSize > 0)
-            question = mPreviousQuestions.get(mPreviousQuestionIndex--);
+        // Only happens on first question first time if the user tries to go back
+        if (listSize == 0 && !mHasFirstQuestionBeenAnswered) {
+            question = getFirstQuestion();
+        }
+        else if (mPreviousQuestionIndex == 1) {
+            question = mPreviousQuestions.get(0);
+            mPreviousQuestionIndex--;
+        }
+        else if(mPreviousQuestionIndex == 0) {
+            question = mPreviousQuestions.get(0);
+        }
+        else {
+            question = mPreviousQuestions.get(--mPreviousQuestionIndex);
+        }
 
         return question;
     }
@@ -220,7 +239,11 @@ public class SessionManager {
             question = mPreviousQuestions.get(i);
             detail.setSessionId((int)sessionId);
             detail.setQuestionId(question.getId());
-            detail.setQuestion(question.getQuestion());
+            if (i == (mPreviousQuestions.size() - 1))
+                // Remove the question from the last statement for detail list view
+                detail.setQuestion(" ");
+            else
+                detail.setQuestion(question.getQuestion());
             detail.setAnswer(question.getAnswer());
 
             mHelper.insertSessionDetail(detail);
