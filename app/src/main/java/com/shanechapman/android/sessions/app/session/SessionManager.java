@@ -58,6 +58,10 @@ public class SessionManager {
 //        return sSessionManager;
 //    }
 
+    public int getPreviousQuestionIndex(){
+        return mPreviousQuestionIndex;
+    }
+
     public void setUserId(int userId){
         mUserId = userId;
     }

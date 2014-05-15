@@ -109,39 +109,21 @@ public class SessionInProgressFragment extends Fragment {
 
         }
 
-//        mPreviousBtn = (Button)view.findViewById(R.id.previous_btn);
-//        mPreviousBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                mCurrentQuestion = mSessionManager.getPreviousQuestion();
-//                if (mCurrentQuestion != null) {
-//                    mQuestionText.setText(mCurrentQuestion.getQuestion());
-//                    mNextBtn.setVisibility(View.VISIBLE);
-//                    mCompleteBtn.setVisibility(View.INVISIBLE);
-//                }
-//                else{
-//                    mPreviousBtn.setEnabled(false);
-//                }
-//            }
-//        });
-//
-//        mNextBtn = (Button)view.findViewById(R.id.next_btn);
-//        mNextBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mSessionManager.setAnswer(mCurrentQuestion.getId(), mAnswerEdit.getText().toString());
-//                mCurrentQuestion = mSessionManager.getNextQuestion(mCurrentQuestion.getId());
-//                mQuestionText.setText(mCurrentQuestion.getQuestion());
-//
-//                if (mSessionManager.getNextQuestion(mCurrentQuestion.getId()) != null) {
-//                    mPreviousBtn.setEnabled(true);
-//                }
-//                else{
-//                    mNextBtn.setVisibility(View.INVISIBLE);
-//                    mCompleteBtn.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
+        mPreviousBtn = (Button)view.findViewById(R.id.previous_btn);
+        mPreviousBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                navigatePrevious();
+            }
+        });
+
+        mNextBtn = (Button)view.findViewById(R.id.next_btn);
+        mNextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateNext(view);
+            }
+        });
 
         mCompleteBtn = (Button)view.findViewById(R.id.complete_btn);
         mCompleteBtn.setVisibility(View.INVISIBLE);
@@ -168,70 +150,31 @@ public class SessionInProgressFragment extends Fragment {
 
     public void navigatePrevious(){
         mCurrentQuestion = mSessionManager.getPreviousQuestion();
-        if (mCurrentQuestion != null) {
-            mQuestionText.setText(mCurrentQuestion.getQuestion());
-            //mNextBtn.setVisibility(View.VISIBLE);
-//                                mCompleteBtn.setVisibility(View.INVISIBLE);
-//
-//                                if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
-//                                    setRadioGroupButtons();
-//                                    for (int i = 0; i < mCurrentQuestion.getPossibleAnswers().size(); i++){
-//                                        if (mCurrentQuestion.getPossibleAnswers().get(i).getValue().equals(mCurrentQuestion.getAnswer())){
-//                                            mAnswerRadioGroup.check(i);
-//                                        }
-//                                    }
-//                                }
-//                                else if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_OPEN)){
-//                                    if (mCurrentQuestion.getAnswer() != null)
-//                                        mAnswerEdit.setText(mCurrentQuestion.getAnswer());
-//                                }
-        }
-        else{
-            //mPreviousBtn.setEnabled(false);
-        }
-//                            setDisplayInputs(mCurrentQuestion.getType());
         formatDisplay();
+        mPreviousBtn.setVisibility(mSessionManager.getPreviousQuestionIndex() == 0 ? View.INVISIBLE : View.VISIBLE);
+        mNextBtn.setVisibility(View.VISIBLE);
     }
 
     public void navigateNext(View v){
 
         if (mCurrentQuestion != null) {
-            int curId = mCurrentQuestion.getId();
-            String curAnswer = null;
             if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
                 int selected = mAnswerRadioGroup.getCheckedRadioButtonId();
                 RadioButton b = (RadioButton)v.findViewById(selected);
-                curAnswer = b.getText().toString();
+                String curAnswer = b.getText().toString();
                 mCurrentQuestion = mSessionManager.getNextQuestion(mCurrentQuestion.getId(), curAnswer);
-                //setDisplayInputs(mCurrentQuestion.getType());
-
-//                                    setRadioGroupButtons();
-
-
             }
             else if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_OPEN)) {
                 mCurrentQuestion = mSessionManager.getNextQuestion(mCurrentQuestion.getId(), mAnswerEdit.getText().toString());
-                //setDisplayInputs(mCurrentQuestion.getType());
-
-//                                    if (mCurrentQuestion.getAnswer() == null)
-//                                        mAnswerEdit.setText("");
-//                                    else
-//                                        mAnswerEdit.setText(mCurrentQuestion.getAnswer());
             }
             else if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_GENERAL)) {
 
             }
 
-//                                setDisplayInputs(mCurrentQuestion.getType());
-
             formatDisplay();
 
-//                                mQuestionText.setText(mCurrentQuestion.getQuestion());
-
-//                                if (mCurrentQuestion.getNextQuestion() == -1) {
-//                                    mCompleteBtn.setVisibility(View.VISIBLE);
-//                                }
-//                                mCompleteBtn.setVisibility(mCurrentQuestion.getNextQuestion() == -1 ? View.VISIBLE : View.INVISIBLE);
+            mPreviousBtn.setVisibility(View.VISIBLE);
+            mNextBtn.setVisibility(mCurrentQuestion.getNextQuestion() == -1 ? View.INVISIBLE : View.VISIBLE);
         }
 
     }
@@ -280,19 +223,9 @@ public class SessionInProgressFragment extends Fragment {
         }
     }
 
-    public void setDisplayInputs(String type){
-        if (type.equals(SessionQuestion.TYPE_MULTI)){
-            mAnswerRadioGroup.setVisibility(View.VISIBLE);
-            mAnswerEdit.setVisibility(View.INVISIBLE);
-        }
-        else if (type.equals(SessionQuestion.TYPE_OPEN)){
-            mAnswerRadioGroup.setVisibility(View.INVISIBLE);
-            mAnswerEdit.setVisibility(View.VISIBLE);
-        }
-        else if (type.equals(SessionQuestion.TYPE_GENERAL)){
-            mAnswerRadioGroup.setVisibility(View.INVISIBLE);
-            mAnswerEdit.setVisibility(View.INVISIBLE);
-        }
-    }
+    // TODO:
+    // check if there are values in the input fields
+    // put a variance on the swipe so that tiny little swipes don't register
+    // style it up
 
 }
