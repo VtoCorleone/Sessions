@@ -21,18 +21,14 @@ public class SessionManager {
     private int mPreviousQuestionIndex = 0;
     private boolean mHasFirstQuestionBeenAnswered = false;
     private String mSessionTitle;
-    private String mCurrentAnswer;
 
     private ArrayList<Session> mSessions;
     private ArrayList<SessionQuestion> mSessionQuestions;
     private ArrayList<SessionQuestion> mPreviousQuestions;
 
-    private JSONArray mJsonSessions;
     private JSONArray mJsonSessionQuestions;
-    private JSONObject mSession;
 
     private SessionDataBaseHelper mHelper;
-    private static SessionManager sSessionManager;
     private Context mAppContext;
 
     public SessionManager(Context appContext){
@@ -50,13 +46,6 @@ public class SessionManager {
         catch(IOException e){ }
         catch(JSONException je){ }
     }
-
-//    public static SessionManager get(Context c){
-//        if (sSessionManager == null){
-//            sSessionManager = new SessionManager(c.getApplicationContext());
-//        }
-//        return sSessionManager;
-//    }
 
     public int getPreviousQuestionIndex(){
         return mPreviousQuestionIndex;
@@ -124,7 +113,6 @@ public class SessionManager {
                     q.setAnswer(answer);
                     mPreviousQuestions.add(q);
                     mPreviousQuestionIndex++;
-                    mCurrentAnswer = answer;
                     break;
                 }
             } catch (JSONException je) {
@@ -251,36 +239,6 @@ public class SessionManager {
             mHelper.insertSessionDetail(detail);
         }
     }
-
-//    public SessionQuestion getNextQuestion(int id, String answer){
-//        SessionQuestion question = null;
-//
-//        for (int i = 0; i < mJsonSessionQuestions.length(); i++) {
-//            try {
-//                Log.i(TAG, "getNextQuestion: " + Integer.toString(mJsonSessionQuestions.getJSONObject(i).getInt(SessionQuestion.JSON_ID)));
-//
-//                // If there is a "next question", return it
-//                int currentId = mJsonSessionQuestions.getJSONObject(i).getInt(SessionQuestion.JSON_ID);
-//                if (currentId == id && (i + 1) < mJsonSessionQuestions.length()) {
-//
-//                    for(int prevId = 0; prevId < mPreviousQuestions.size(); prevId++){
-//                        if (currentId == mPreviousQuestions.get(prevId).getId()){
-//                            if (mPreviousQuestions.get(prevId).getAnswer() == answer) {
-//
-//                            }
-//                        }
-//                    }
-//
-//                    question = new SessionQuestion(mJsonSessionQuestions.getJSONObject(++i));
-//                    break;
-//                }
-//            } catch (JSONException je) {
-//                Log.e(TAG, "JSON Error: " + je);
-//            }
-//        }
-//
-//        return question;
-//    }
 
 }
 

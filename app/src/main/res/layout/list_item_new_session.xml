@@ -7,7 +7,10 @@
         android:id="@+id/new_session_list_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:hint="placeholder"
         android:paddingTop="10dp"
+        android:paddingLeft="15px"
         android:paddingBottom="10dp"/>
 
 </RelativeLayout>

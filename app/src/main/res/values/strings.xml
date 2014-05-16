@@ -25,5 +25,7 @@
     <string name="err_please_enter_data">Username and password required</string>
     <string name="complete_btn">Complete the Session!</string>
     <string name="title_activity_session_detail_list">SessionDetailListActivity</string>
+    <string name="past_sessions">View past sessions</string>
+    <string name="success_session">Session taken successfully!</string>
 
 </resources>

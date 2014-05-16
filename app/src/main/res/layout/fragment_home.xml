@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:text="Create a new session"
+        android:text="@string/new_session"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"/>
 
@@ -27,16 +27,17 @@
         android:id="@+id/session_completed"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Session successfully completed"
+        android:text="@string/success_session"
+        android:textColor="@color/success"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@id/new_session_btn"
         android:visibility="invisible"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:text="Check past sessions"
+        android:text="@string/past_sessions"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"/>
 

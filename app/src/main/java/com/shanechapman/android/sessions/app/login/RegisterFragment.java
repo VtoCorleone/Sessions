@@ -20,6 +20,12 @@ public class RegisterFragment extends Fragment {
 
     public static final String NEW_USER_ID = "com.shanechapman.android.sessions.app.new_user_id";
 
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle("New User Registration");
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 

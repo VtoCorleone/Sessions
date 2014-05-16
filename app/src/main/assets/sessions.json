@@ -8,15 +8,15 @@
         "question": "Are you feeling sick?",
         "type": "multi",
         "possibleAnswers":[
-            {
-                "0":"Yes",
-                "nextQuestion":3
-            },
-            {
-                "1":"No",
-                "nextQuestion":2
-            }
-        ]
+                    {
+                        "0": "Yes",
+                        "nextQuestion": 3
+                    },
+                    {
+                        "1": "No",
+                        "nextQuestion": 2
+                    }
+                ]
     },
     {
         "id": 2,

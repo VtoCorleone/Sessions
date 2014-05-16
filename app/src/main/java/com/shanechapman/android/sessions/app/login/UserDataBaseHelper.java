@@ -28,14 +28,7 @@ public class UserDataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         // Create the user table
         db.execSQL("CREATE TABLE user (id integer primary key autoincrement, name string, password string)");
-//        db.execSQL("INSERT INTO user (name, password) VALUES('CS646', 'SP2014')");
-        db.execSQL("INSERT INTO user (name, password) VALUES('a', 'b')");
-
-        // Create default user for program
-//        ContentValues cv = new ContentValues();
-//        cv.put(COLUMN_USER_NAME, "CS646");
-//        cv.put(COLUMN_USER_PASSWORD, "SP2014");
-//        getWritableDatabase().insert(TABLE_USER, null, cv);
+        db.execSQL("INSERT INTO user (name, password) VALUES('CS646', 'SP2014')");
     }
 
     @Override

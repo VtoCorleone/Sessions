@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -32,8 +33,8 @@ public class SessionInProgressFragment extends Fragment {
 
     public static final String INTENT_IS_FROM_SESSION = "com.shanechapman.android.sessions.app.IS_FROM_SESSION";
 
-    private Button mPreviousBtn;
-    private Button mNextBtn;
+    private ImageButton mPreviousBtn;
+    private ImageButton mNextBtn;
     private Button mCompleteBtn;
     private TextView mQuestionText;
     private RadioGroup mAnswerRadioGroup;
@@ -52,6 +53,7 @@ public class SessionInProgressFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        getActivity().setTitle("Session in progress");
         Intent i = getActivity().getIntent();
         mUserId = i.getIntExtra(UserManager.USER_ID, -1);
         int sessionId = i.getIntExtra(SessionManager.SESSION_ID, -1);
@@ -84,7 +86,7 @@ public class SessionInProgressFragment extends Fragment {
                         }
                         // swipe right to left - get next question
                         else if (downX > upX){
-                            navigateNext(v);
+                            navigateNext();
                         }
                         break;
                 }
@@ -113,7 +115,7 @@ public class SessionInProgressFragment extends Fragment {
 
         }
 
-        mPreviousBtn = (Button)view.findViewById(R.id.previous_btn);
+        mPreviousBtn = (ImageButton)view.findViewById(R.id.previous_btn);
         mPreviousBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -121,11 +123,11 @@ public class SessionInProgressFragment extends Fragment {
             }
         });
 
-        mNextBtn = (Button)view.findViewById(R.id.next_btn);
+        mNextBtn = (ImageButton)view.findViewById(R.id.next_btn);
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigateNext(view);
+                navigateNext();
             }
         });
 
@@ -159,7 +161,7 @@ public class SessionInProgressFragment extends Fragment {
         mNextBtn.setVisibility(View.VISIBLE);
     }
 
-    public void navigateNext(View v){
+    public void navigateNext(){
 
         if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
             int selected = mAnswerRadioGroup.getCheckedRadioButtonId();
@@ -180,7 +182,7 @@ public class SessionInProgressFragment extends Fragment {
         if (mCurrentQuestion != null) {
             if (mCurrentQuestion.getType().equals(SessionQuestion.TYPE_MULTI)){
                 int selected = mAnswerRadioGroup.getCheckedRadioButtonId();
-                RadioButton b = (RadioButton)v.findViewById(selected);
+                RadioButton b = (RadioButton)getActivity().findViewById(selected);
                 String curAnswer = b.getText().toString();
                 mCurrentQuestion = mSessionManager.getNextQuestion(mCurrentQuestion.getId(), curAnswer);
             }
